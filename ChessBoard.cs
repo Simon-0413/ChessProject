@@ -6,6 +6,12 @@ namespace ChessProject
         private Button firstButton = new Button();
         private Button secondButton = new Button();
         private bool isBlackTurn = false;
+        private bool kingMoved = false;
+        private bool blKingMoved = false;
+        private bool leftRookMoved = false;
+        private bool blLeftRookMoved = false;
+        private bool rightRookMoved = false;
+        private bool blRightRookMoved = false;
 
 
         private Dictionary<char, int> colDict = new Dictionary<char, int> {
@@ -50,14 +56,14 @@ namespace ChessProject
                 }
             }
 
-            btnA8.Tag = "BlRook".ToString();
+            btnA8.Tag = "BlLeftRook".ToString();
             btnB8.Tag = "BlKnight".ToString();
             btnC8.Tag = "BlBishop".ToString();
             btnD8.Tag = "BlQueen".ToString();
             btnE8.Tag = "BlKing".ToString();
             btnF8.Tag = "BlBishop".ToString();
             btnG8.Tag = "BlKnight".ToString();
-            btnH8.Tag = "BlRook".ToString();
+            btnH8.Tag = "BlRightRook".ToString();
 
             btnA7.Tag = "BlPawn".ToString();
             btnB7.Tag = "BlPawn".ToString();
@@ -68,14 +74,14 @@ namespace ChessProject
             btnG7.Tag = "BlPawn".ToString();
             btnH7.Tag = "BlPawn".ToString();
 
-            btnA1.Tag = "Rook".ToString();
+            btnA1.Tag = "LeftRook".ToString();
             btnB1.Tag = "Knight".ToString();
             btnC1.Tag = "Bishop".ToString();
             btnD1.Tag = "Queen".ToString();
             btnE1.Tag = "King".ToString();
             btnF1.Tag = "Bishop".ToString();
             btnG1.Tag = "Knight".ToString();
-            btnH1.Tag = "Rook".ToString();
+            btnH1.Tag = "RightRook".ToString();
 
             btnA2.Tag = "Pawn".ToString();
             btnB2.Tag = "Pawn".ToString();
@@ -126,7 +132,100 @@ namespace ChessProject
 
         private void Castling(Button sourceButton, Button targetButton)
         {
-            throw new NotImplementedException();
+            bool validTry = true;
+
+            int sourceRow = GetRowFromButtonName(sourceButton.Name);
+            int sourceCol = GetColFromButtonName(sourceButton.Name);
+            int targetRow = GetRowFromButtonName(targetButton.Name);
+            int targetCol = GetColFromButtonName(targetButton.Name);
+
+            int direction = targetRow - sourceRow;
+            int colDifference = Math.Abs(targetCol - sourceCol);
+
+
+            if (targetButton.Name == "btnH1" || targetButton.Name == "btnH8")
+            {
+                if (isBlackTurn)
+                {
+                    validTry = !blKingMoved && !blRightRookMoved;
+                }
+                else
+                {
+                    validTry = !kingMoved && !rightRookMoved;
+                }
+                if (validTry)
+                {
+                    Button? nextPosRook = GetButtonFromRowCol(targetRow, 6);
+                    Button? nextPosKing = GetButtonFromRowCol(targetRow, 7);
+
+                    if (nextPosRook != null)
+                    {
+                        nextPosRook.Image = targetButton.Image;
+                    }
+
+                    if (nextPosKing != null)
+                    {
+                        nextPosKing.Image = sourceButton.Image;
+                    }
+                    if (nextPosRook != null)
+                    {
+                        nextPosRook.Tag = targetButton.Tag;
+                    }
+                    if (nextPosKing != null)
+                    {
+                        nextPosKing.Tag = sourceButton.Tag;
+                    }
+                    sourceButton.Image = null;
+                    targetButton.Image = null;
+                    sourceButton.Tag = "Empty";
+                    targetButton.Tag = "Empty";
+                    isBlackTurn = !isBlackTurn;
+                    sourceButton.BackColor = GetResetColor(sourceButton, targetButton, direction, colDifference);
+                }
+            }
+
+
+
+            if (targetButton.Name == "btnA1" || targetButton.Name == "btnA8")
+            {
+                if (isBlackTurn)
+                {
+                    validTry = !blKingMoved && !blLeftRookMoved;
+                }
+                else
+                {
+                    validTry = !kingMoved && !leftRookMoved;
+                }
+                if (validTry)
+                {
+                    Button? nextPosRook = GetButtonFromRowCol(targetRow, 4);
+                    Button? nextPosKing = GetButtonFromRowCol(targetRow, 3);
+
+                    if (nextPosRook != null)
+                    {
+                        nextPosRook.Image = targetButton.Image;
+                    }
+
+                    if (nextPosKing != null)
+                    {
+                        nextPosKing.Image = sourceButton.Image;
+                    }
+                    if (nextPosRook != null)
+                    {
+                        nextPosRook.Tag = targetButton.Tag;
+                    }
+                    if (nextPosKing != null)
+                    {
+                        nextPosKing.Tag = sourceButton.Tag;
+                    }
+                    sourceButton.Image = null;
+                    targetButton.Image = null;
+                    sourceButton.Tag = "Empty";
+                    targetButton.Tag = "Empty";
+                    isBlackTurn = !isBlackTurn;
+                    sourceButton.BackColor = GetResetColor(sourceButton, targetButton, direction, colDifference);
+                }
+            }
         }
 
         private void ButtonClick(Button clickedButton)
@@ -167,8 +266,10 @@ namespace ChessProject
                         MovePawn(firstButton, secondButton);
                         break;
 
-                    case "Rook":
-                    case "BlRook":
+                    case "LeftRook":
+                    case "BlLeftRook":
+                    case "RightRook":
+                    case "BlRightRook":
                         MoveRook(firstButton, secondButton);
                         break;
 
@@ -191,7 +292,6 @@ namespace ChessProject
                     case "BlKing":
                         if ((firstButton.Name == "btnE8" && secondButton.Name == "btnH8") || (firstButton.Name == "btnE1" && secondButton.Name == "btnH1") || (firstButton.Name == "btnE8" && secondButton.Name == "btnA8") || (firstButton.Name == "btnE1" && secondButton.Name == "btnA1"))
                         {
-
                             if (CheckForObstacleHorizontal(ref firstButton, ref secondButton, ref sourceRow, ref targetRow, ref sourceCol, ref targetCol, ref direction, ref colDifference).Item1 == false)
                             {
                                 Castling(firstButton, secondButton);
@@ -217,10 +317,18 @@ namespace ChessProject
         private Tuple<bool, bool> CheckForObstacleHorizontal(ref Button sourceButton, ref Button targetButton, ref int sourceRow, ref int targetRow, ref int sourceCol, ref int targetCol, ref int direction, ref int colDifference)
         {
             //tuple values = (isObstacleInTheWay, canCatch)
-            //canCatch is true when the the only obstacle is an enemy piece on the targetSquare  
+            //canCatch is true when the the only obstacle is an enemy piece on the targetSquare
+            int rowStep = 0;
+            if (targetRow != sourceRow)
+            {
+                rowStep = (targetRow > sourceRow) ? 1 : -1;
+            }
 
-            int rowStep = (targetRow > sourceRow) ? 1 : 0;
-            int colStep = (targetCol > sourceCol) ? 1 : 0;
+            int colStep = 0;
+            if (targetCol != sourceCol)
+            {
+                colStep = (targetCol > sourceCol) ? 1 : -1;
+            }
 
             int currentRow = sourceRow + rowStep;
             int currentCol = sourceCol + colStep;
@@ -245,7 +353,7 @@ namespace ChessProject
                             else
                             {
                                 sourceButton.BackColor = GetResetColor(sourceButton, targetButton, direction, colDifference);
-                                return Tuple.Create(true, false);
+                                return Tuple.Create(false, false);
                             }
                         }
 
@@ -256,10 +364,11 @@ namespace ChessProject
                     currentRow += rowStep;
 
                 }
+                return Tuple.Create(false, false);
             }
-            else if (rowStep == 0 && colStep == 1)
+            else if (rowStep == -1 && colStep == 0)
             {
-                while (currentRow >= targetRow && currentCol >= targetCol)
+                while (currentRow >= targetRow)
                 {
                     Button? currentButton = GetButtonFromRowCol(currentRow, currentCol);
 
@@ -277,7 +386,41 @@ namespace ChessProject
                             else
                             {
                                 sourceButton.BackColor = GetResetColor(sourceButton, targetButton, direction, colDifference);
-                                return Tuple.Create(true, false);
+                                return Tuple.Create(false, false);
+                            }
+                        }
+
+                        sourceButton.BackColor = GetResetColor(sourceButton, targetButton, direction, colDifference);
+                        return Tuple.Create(true, false);
+                    }
+
+                    currentRow += rowStep;
+
+                }
+                return Tuple.Create(false, false);
+            }
+
+            else if (rowStep == 0 && colStep == 1)
+            {
+                while (currentCol <= targetCol)
+                {
+                    Button? currentButton = GetButtonFromRowCol(currentRow, currentCol);
+
+                    if (currentButton?.Tag.ToString() != "Empty")
+                    {
+                        if (targetButton.Name == currentButton?.Name)
+                        {
+                            string currentButtonTag = currentButton.Tag?.ToString() ?? string.Empty;
+
+                            if ((isBlackTurn && !currentButtonTag.StartsWith("Bl")) ||
+                                (!isBlackTurn && currentButtonTag.StartsWith("Bl")))
+                            {
+                                return Tuple.Create(true, true);
+                            }
+                            else
+                            {
+                                sourceButton.BackColor = GetResetColor(sourceButton, targetButton, direction, colDifference);
+                                return Tuple.Create(false, false);
                             }
                         }
 
@@ -288,6 +431,41 @@ namespace ChessProject
                     currentCol += colStep;
 
                 }
+                return Tuple.Create(false, false);
+            }
+
+            else if (rowStep == 0 && colStep == -1)
+            {
+                while (currentCol >= targetCol)
+                {
+                    Button? currentButton = GetButtonFromRowCol(currentRow, currentCol);
+
+                    if (currentButton?.Tag.ToString() != "Empty")
+                    {
+                        if (targetButton.Name == currentButton?.Name)
+                        {
+                            string currentButtonTag = currentButton.Tag?.ToString() ?? string.Empty;
+
+                            if ((isBlackTurn && !currentButtonTag.StartsWith("Bl")) ||
+                                (!isBlackTurn && currentButtonTag.StartsWith("Bl")))
+                            {
+                                return Tuple.Create(true, true);
+                            }
+                            else
+                            {
+                                sourceButton.BackColor = GetResetColor(sourceButton, targetButton, direction, colDifference);
+                                return Tuple.Create(false, false);
+                            }
+                        }
+
+                        sourceButton.BackColor = GetResetColor(sourceButton, targetButton, direction, colDifference);
+                        return Tuple.Create(true, false);
+                    }
+
+                    currentCol += colStep;
+
+                }
+                return Tuple.Create(false, false);
             }
             return Tuple.Create(false, false);
         }
@@ -654,6 +832,21 @@ namespace ChessProject
                             if (targetButton.Tag.ToString() == "Empty")
                             {
                                 MovePiece(ref sourceButton, ref targetButton);
+                                switch (targetButton.Tag.ToString())
+                                {
+                                    case "LeftRook":
+                                        leftRookMoved = true;
+                                        break;
+                                    case "BlLeftRook":
+                                        blLeftRookMoved = true;
+                                        break;
+                                    case "RightRook":
+                                        rightRookMoved = true;
+                                        break;
+                                    case "BlRightRook":
+                                        blRightRookMoved = true;
+                                        break;
+                                }
                             }
                             else
                             {
@@ -662,6 +855,21 @@ namespace ChessProject
                                     if (targetButton.Tag?.ToString()?.Substring(0, 2) != "Bl")
                                     {
                                         MovePiece(ref sourceButton, ref targetButton);
+                                        switch (targetButton.Tag.ToString())
+                                        {
+                                            case "LeftRook":
+                                                leftRookMoved = true;
+                                                break;
+                                            case "BlLeftRook":
+                                                blLeftRookMoved = true;
+                                                break;
+                                            case "RightRook":
+                                                rightRookMoved = true;
+                                                break;
+                                            case "BlRightRook":
+                                                blRightRookMoved = true;
+                                                break;
+                                        }
                                     }
                                 }
                                 else
@@ -669,6 +877,21 @@ namespace ChessProject
                                     if (targetButton.Tag?.ToString()?.Substring(0, 2) == "Bl")
                                     {
                                         MovePiece(ref sourceButton, ref targetButton);
+                                        switch (targetButton.Tag.ToString())
+                                        {
+                                            case "LeftRook":
+                                                leftRookMoved = true;
+                                                break;
+                                            case "BlLeftRook":
+                                                blLeftRookMoved = true;
+                                                break;
+                                            case "RightRook":
+                                                rightRookMoved = true;
+                                                break;
+                                            case "BlRightRook":
+                                                blRightRookMoved = true;
+                                                break;
+                                        }
                                     }
                                 }
                             }
@@ -708,6 +931,14 @@ namespace ChessProject
                     if (targetButton.Tag.ToString() == "Empty")
                     {
                         MovePiece(ref sourceButton, ref targetButton);
+                        if (isBlackTurn)
+                        {
+                            blKingMoved = true;
+                        }
+                        else
+                        {
+                            kingMoved = true;
+                        }
                     }
                     else
                     {
@@ -718,6 +949,14 @@ namespace ChessProject
                             if (targetButton.Tag?.ToString()?.Substring(0, 2) != "Bl")
                             {
                                 MovePiece(ref sourceButton, ref targetButton);
+                                if (isBlackTurn)
+                                {
+                                    blKingMoved = true;
+                                }
+                                else
+                                {
+                                    kingMoved = true;
+                                }
                             }
                             else
                             {
@@ -729,6 +968,14 @@ namespace ChessProject
                             if (targetButton.Tag?.ToString()?.Substring(0, 2) == "Bl")
                             {
                                 MovePiece(ref sourceButton, ref targetButton);
+                                if (isBlackTurn)
+                                {
+                                    blKingMoved = true;
+                                }
+                                else
+                                {
+                                    kingMoved = true;
+                                }
                             }
                             else
                             {
