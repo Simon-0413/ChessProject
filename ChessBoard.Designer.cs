@@ -1,6 +1,6 @@
 ﻿namespace ChessProject
 {
-    partial class Form1
+    partial class ChessBoard
     {
         /// <summary>
         ///  Required designer variable.
@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ChessBoard));
             btnA8 = new FieldButton();
             btnB8 = new FieldButton();
             btnC8 = new FieldButton();
@@ -833,7 +834,7 @@
             btnH1.UseVisualStyleBackColor = false;
             btnH1.Click += btnH1_Click;
             // 
-            // Form1
+            // ChessBoard
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -902,8 +903,11 @@
             Controls.Add(btnF1);
             Controls.Add(btnG1);
             Controls.Add(btnH1);
-            Name = "Form1";
-            Text = "Form1";
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            MaximizeBox = false;
+            Name = "ChessBoard";
+            Text = "Chess";
             Load += Form1_Load;
             ResumeLayout(false);
         }

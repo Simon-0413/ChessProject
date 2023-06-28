@@ -118,43 +118,49 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="kingBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\images\kingBlack.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="queen" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\images\queen.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="pawn" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\images\pawn.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="pawnBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\images\pawnBlack.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="king" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\images\king.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="knight" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\images\knight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="rook" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\images\rook.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="rookBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\rookBlack.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="startScreen_Background" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\startScreen_Background.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bishopBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\bishopBlack.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="rookBlack1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\images\rookBlack.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kingBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\kingBlack.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="pawn" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\pawn.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="king" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\king.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="bishop" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\images\bishop.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="knightBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\images\knightBlack.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="queen" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\queen.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="queenBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\images\queenBlack.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="rookBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\images\rookBlack.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="pawnBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\pawnBlack.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="bishopBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\images\bishopBlack.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="knightBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\knightBlack.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="StartScreen_Background" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\StartScreen_Background.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

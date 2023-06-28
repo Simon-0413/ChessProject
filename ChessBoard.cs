@@ -1,11 +1,12 @@
 namespace ChessProject
 {
-    public partial class Form1 : Form
+    public partial class ChessBoard : Form
     {
         private bool isFirstButtonClicked = false;
         private Button firstButton = new Button();
         private Button secondButton = new Button();
         private bool isBlackTurn = false;
+
 
         private Dictionary<char, int> colDict = new Dictionary<char, int> {
                 {'A', 1},
@@ -18,7 +19,7 @@ namespace ChessProject
                 {'H', 8}
             };
 
-        public Form1()
+        public ChessBoard()
         {
             InitializeComponent();
         }
@@ -123,6 +124,11 @@ namespace ChessProject
 
         }
 
+        private void Castling(Button sourceButton, Button targetButton)
+        {
+            throw new NotImplementedException();
+        }
+
         private void ButtonClick(Button clickedButton)
         {
 
@@ -183,8 +189,27 @@ namespace ChessProject
 
                     case "King":
                     case "BlKing":
-                        MoveKing(firstButton, secondButton);
-                        break;
+                        if ((firstButton.Name == "btnE8" && secondButton.Name == "btnH8") || (firstButton.Name == "btnE1" && secondButton.Name == "btnH1") || (firstButton.Name == "btnE8" && secondButton.Name == "btnA8") || (firstButton.Name == "btnE1" && secondButton.Name == "btnA1"))
+                        {
+
+                            if (CheckForObstacleHorizontal(ref firstButton, ref secondButton, ref sourceRow, ref targetRow, ref sourceCol, ref targetCol, ref direction, ref colDifference).Item1 == false)
+                            {
+                                Castling(firstButton, secondButton);
+                                break;
+                            }
+                            else
+                            {
+                                firstButton.BackColor = GetResetColor(firstButton, secondButton, direction, colDifference);
+                                break;
+                            }
+
+                        }
+                        else
+                        {
+                            MoveKing(firstButton, secondButton);
+                            break;
+                        }
+
                 }
             }
         }
@@ -417,6 +442,16 @@ namespace ChessProject
             return Tuple.Create(false, false);
         }
 
+        private bool CheckForCheck()
+        {
+            throw new NotImplementedException();
+        }
+
+        private bool CheckForCheckMate()
+        {
+            throw new NotImplementedException();
+        }
+
         private void MovePiece(ref Button sourceButton, ref Button targetButton)
         {
 
@@ -611,7 +646,7 @@ namespace ChessProject
                 int colDifference = Math.Abs(targetCol - sourceCol);
 
                 if (((CheckForObstacleHorizontal(ref sourceButton, ref targetButton, ref sourceRow, ref targetRow, ref sourceCol, ref targetCol, ref direction, ref colDifference).Item1 == false) || (CheckForObstacleHorizontal(ref sourceButton, ref targetButton, ref sourceRow, ref targetRow, ref sourceCol, ref targetCol, ref direction, ref colDifference).Item2 == true)) && (direction == 0 || colDifference == 0))
-
+                {
                     if (direction == 0 || colDifference == 0)
                     {
                         if ((isBlackTurn && sourceButton.Tag?.ToString()?.Substring(0, 2) == "Bl") || (!isBlackTurn && sourceButton.Tag?.ToString()?.Substring(0, 2) != "Bl"))
@@ -647,7 +682,11 @@ namespace ChessProject
                     {
                         sourceButton.BackColor = GetResetColor(sourceButton, targetButton, direction, colDifference);
                     }
-
+                }
+                else
+                {
+                    sourceButton.BackColor = GetResetColor(sourceButton, targetButton, direction, colDifference);
+                }
             }
         }
 
@@ -663,6 +702,7 @@ namespace ChessProject
 
             if ((direction == 1 && colDifference == 0) || (direction == 0 && colDifference == 1) || (direction == 1 && colDifference == 1) || (direction == 0 && colDifference == 0))
             {
+
                 if ((isBlackTurn && sourceButton.Tag?.ToString()?.Substring(0, 2) == "Bl") || (!isBlackTurn && sourceButton.Tag?.ToString()?.Substring(0, 2) != "Bl"))
                 {
                     if (targetButton.Tag.ToString() == "Empty")
@@ -719,45 +759,96 @@ namespace ChessProject
             int direction = Math.Abs(targetRow - sourceRow);
             int colDifference = Math.Abs(targetCol - sourceCol);
 
-            if ((direction == 0 || colDifference == 0) || (colDifference - direction == 0))
+            if (direction == 0 || colDifference == 0 || (colDifference - direction == 0))
             {
-                if ((isBlackTurn && sourceButton.Tag?.ToString()?.Substring(0, 2) == "Bl") || (!isBlackTurn && sourceButton.Tag?.ToString()?.Substring(0, 2) != "Bl"))
+                if (direction == 0 || colDifference == 0)
                 {
-                    if (targetButton.Tag.ToString() == "Empty")
+                    if ((CheckForObstacleHorizontal(ref sourceButton, ref targetButton, ref sourceRow, ref targetRow, ref sourceCol, ref targetCol, ref direction, ref colDifference).Item1 == false) || (CheckForObstacleHorizontal(ref sourceButton, ref targetButton, ref sourceRow, ref targetRow, ref sourceCol, ref targetCol, ref direction, ref colDifference).Item2 == true))
                     {
-                        MovePiece(ref sourceButton, ref targetButton);
-                    }
-                    else
-                    {
-
-
-                        if (isBlackTurn)
+                        if ((isBlackTurn && sourceButton.Tag?.ToString()?.Substring(0, 2) == "Bl") || (!isBlackTurn && sourceButton.Tag?.ToString()?.Substring(0, 2) != "Bl"))
                         {
-                            if (targetButton.Tag?.ToString()?.Substring(0, 2) != "Bl")
+                            if (targetButton.Tag.ToString() == "Empty")
                             {
                                 MovePiece(ref sourceButton, ref targetButton);
                             }
                             else
                             {
-                                sourceButton.BackColor = GetResetColor(sourceButton, targetButton, direction, colDifference);
+
+
+                                if (isBlackTurn)
+                                {
+                                    if (targetButton.Tag?.ToString()?.Substring(0, 2) != "Bl")
+                                    {
+                                        MovePiece(ref sourceButton, ref targetButton);
+                                    }
+                                    else
+                                    {
+                                        sourceButton.BackColor = GetResetColor(sourceButton, targetButton, direction, colDifference);
+                                    }
+                                }
+                                else
+                                {
+                                    if (targetButton.Tag?.ToString()?.Substring(0, 2) == "Bl")
+                                    {
+                                        MovePiece(ref sourceButton, ref targetButton);
+                                    }
+                                    else
+                                    {
+                                        sourceButton.BackColor = GetResetColor(sourceButton, targetButton, direction, colDifference);
+                                    }
+                                }
                             }
                         }
                         else
                         {
-                            if (targetButton.Tag?.ToString()?.Substring(0, 2) == "Bl")
+                            sourceButton.BackColor = GetResetColor(sourceButton, targetButton, direction, colDifference);
+                        }
+
+                    }
+                }
+                else
+                {
+                    if (((CheckForObstacleDiagonal(ref sourceButton, ref targetButton, ref sourceRow, ref targetRow, ref sourceCol, ref targetCol, ref direction, ref colDifference).Item1 == false) || (CheckForObstacleDiagonal(ref sourceButton, ref targetButton, ref sourceRow, ref targetRow, ref sourceCol, ref targetCol, ref direction, ref colDifference).Item2 == true)) && (direction - colDifference == 0))
+                    {
+                        if ((isBlackTurn && sourceButton.Tag?.ToString()?.Substring(0, 2) == "Bl") || (!isBlackTurn && sourceButton.Tag?.ToString()?.Substring(0, 2) != "Bl"))
+                        {
+                            if (targetButton.Tag.ToString() == "Empty")
                             {
                                 MovePiece(ref sourceButton, ref targetButton);
                             }
                             else
                             {
-                                sourceButton.BackColor = GetResetColor(sourceButton, targetButton, direction, colDifference);
+
+
+                                if (isBlackTurn)
+                                {
+                                    if (targetButton.Tag?.ToString()?.Substring(0, 2) != "Bl")
+                                    {
+                                        MovePiece(ref sourceButton, ref targetButton);
+                                    }
+                                    else
+                                    {
+                                        sourceButton.BackColor = GetResetColor(sourceButton, targetButton, direction, colDifference);
+                                    }
+                                }
+                                else
+                                {
+                                    if (targetButton.Tag?.ToString()?.Substring(0, 2) == "Bl")
+                                    {
+                                        MovePiece(ref sourceButton, ref targetButton);
+                                    }
+                                    else
+                                    {
+                                        sourceButton.BackColor = GetResetColor(sourceButton, targetButton, direction, colDifference);
+                                    }
+                                }
                             }
                         }
+                        else
+                        {
+                            sourceButton.BackColor = GetResetColor(sourceButton, targetButton, direction, colDifference);
+                        }
                     }
-                }
-                else
-                {
-                    sourceButton.BackColor = GetResetColor(sourceButton, targetButton, direction, colDifference);
                 }
             }
             else
